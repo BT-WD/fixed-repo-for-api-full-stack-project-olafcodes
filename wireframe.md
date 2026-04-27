@@ -1,0 +1,5 @@
+[ NAVBAR ]
+[ STATS ]
+[ CAT CARD ]
+[ BUTTONS ]
+[ HISTORY ]
