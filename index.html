@@ -1,16 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CatDrop 🐾</title>
+  <link rel="stylesheet" href="index.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+</head>
 <body>
 
+  <!-- NAV -->
   <nav class="navbar">
     <div class="nav-logo">🐾 CatDrop</div>
     <div class="nav-links">
-      <button class="nav-btn active">Home</button>
-      <button class="nav-btn">Favorites</button>
+      <button class="nav-btn active" id="homeBtn" onclick="showPage('home')">Home</button>
+      <button class="nav-btn" id="favsBtn" onclick="showPage('favorites')">
+        ❤️ Favorites <span class="fav-badge" id="favBadge">0</span>
+      </button>
     </div>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Dark Mode">🌙</button>
   </nav>
 
-  <div class="page">
-    <div class="cat-card"></div>
-    <button class="btn">Next Cat</button>
+  <!-- HOME PAGE -->
+  <div class="page" id="homePage">
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-chip">
+        👀 Viewed: <strong id="viewedCount">0</strong>
+      </div>
+      <div class="stat-chip streak-chip">
+        🔥 Streak: <strong id="streakCount">0</strong>
+      </div>
+      <div class="stat-chip">
+        ❤️ Saved: <strong id="savedCount">0</strong>
+      </div>
+    </div>
+
+    <!-- Cat Card -->
+    <div class="cat-card-wrapper">
+      <div class="cat-card" id="catCard">
+
+        <!-- Spinner -->
+        <div class="spinner-wrap" id="spinnerWrap">
+          <div class="spinner"></div>
+          <p class="loading-text">Fetching a cute cat…</p>
+        </div>
+
+        <!-- Cat Image -->
+        <div class="cat-img-wrap" id="catImgWrap" style="display:none">
+          <img id="catImg" src="" alt="Random cat" class="cat-img"/>
+          <div class="cat-img-overlay">
+            <span class="cat-id-badge" id="catIdBadge">ID: —</span>
+          </div>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-state" id="errorState" style="display:none">
+          <p>😿 Oops! Couldn't fetch a cat.<br/>Check your connection.</p>
+          <button class="btn btn-primary" onclick="fetchCat()">Retry</button>
+        </div>
+
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons" id="actionButtons" style="opacity:0; pointer-events:none">
+        <button class="btn btn-fav" id="favBtn" onclick="toggleFavorite()">❤️ Favorite</button>
+        <button class="btn btn-copy" onclick="copyCatId()">📋 Copy ID</button>
+        <button class="btn btn-share" onclick="shareCat()">📤 Share</button>
+        <button class="btn btn-dl" onclick="downloadCat()">⬇️ Download</button>
+      </div>
+
+      <button class="btn btn-primary btn-next" onclick="fetchCat()">🐱 Next Cat</button>
+    </div>
+
+    <!-- History Strip -->
+    <div class="history-section">
+      <h3 class="section-title">Recently Viewed</h3>
+      <div class="history-strip" id="historyStrip">
+        <p class="empty-msg">Your recently viewed cats will appear here!</p>
+      </div>
+    </div>
+
   </div>
 
+  <!-- FAVORITES PAGE -->
+  <div class="page" id="favoritesPage" style="display:none">
+    <div class="page-header">
+      <h2 class="page-title">Your Faves ❤️</h2>
+      <button class="btn btn-danger" onclick="clearAllFavorites()">Clear All</button>
+    </div>
+    <div class="favs-grid" id="favsGrid">
+      <div class="empty-favs">
+        <p>😿 No favorites yet!<br/>Go heart some cats!</p>
+        <button class="btn btn-primary" onclick="showPage('home')">Find Cats</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="index.js"></script>
 </body>
+</html>
